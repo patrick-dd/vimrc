@@ -4,7 +4,8 @@
 "
 
 set nocompatible
-filetype off
+filetype plugin on
+syntax on
 
 " open with NERDTree
 au VimEnter * NERDTree
@@ -22,6 +23,8 @@ Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-notes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bronson/vim-visual-star-search'
+Plugin 'vimwiki/vimwiki'
+" Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 filetype plugin indent on
@@ -33,6 +36,7 @@ set laststatus=2
 let g:notes_directories=['~/Dropbox/notes']
 let g:notes_suffix='*.txt'
 let g:tex_flavor='latex'
+let g:vimwiki_list=[{'path': '~/Dropbox/vimwiki', 'index' : 'index'}]
 
 " settings
 set number
@@ -76,7 +80,7 @@ set ruler               " show line and column number
 set showcmd             " show (partial) command in status line
 
 " colours
-colo monokai
+" colo monokai
 syntax on               " syntax highlighting
 set t_Co=256 	        " setting to 256 color mode
 
