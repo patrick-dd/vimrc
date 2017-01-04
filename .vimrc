@@ -8,7 +8,11 @@ filetype plugin on
 syntax on
 
 " open with NERDTree
-au VimEnter * NERDTree
+" au VimEnter * NERDTree
+" toggle NERDTree on/off
+map <C-n> :NERDTreeToggle<CR>
+" close vim when the only window left is NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "" enable line numbers
 let NERDTreeShowLineNumbers=1
 "" make sure relative line numbers are used
@@ -69,9 +73,9 @@ set statusline+=\ -\
 set statusline+=FileType:
 set statusline+=%y
 set statusline+=%=
-set statusline+=%4l
-set statusline+=/
-set statusline+=%-4L
+set statusline+=Column:\ %-6c
+set statusline+=Row:\ %-6l
+set statusline+=Total:\ %-4L
 
 " make backspaces more powerfull
 set backspace=indent,eol,start
