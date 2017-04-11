@@ -37,10 +37,6 @@ syntax enable
 set background=dark
 
 set laststatus=2
-let g:notes_directories=['~/Dropbox/notes']
-let g:notes_suffix='*.txt'
-let g:tex_flavor='latex'
-let g:vimwiki_list=[{'path': '~/Dropbox/vimwiki', 'index' : 'index'}]
 
 " settings
 set number
@@ -48,6 +44,9 @@ syntax on
 set textwidth=78
 set wrap
 
+"" unlimited tw for csvs and markdowns
+au BufRead,BufNewFile,BufReadPre  *.csv setlocal tw=0
+au BufRead,BufNewFile,BufReadPre  *.md setlocal tw=0
 "" Python things
 " mappingsnding of tabs for various file types
 au BufRead,BufNewFile *.py set expandtab
@@ -96,7 +95,7 @@ nnoremap <leader>d ddi
 nnoremap <leader>c ddi<Return><esc>ki
 inoremap <c-u> <esc>Ui
 nnoremap <c-u> <esc>U
-
+"inoremap dx <C-R>=strftime('%d%m%Y')
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap H 0
@@ -110,8 +109,6 @@ vnoremap L $
 
 
 " abbreviation
-:iabbrev @@ patrick.doupe@mssm.edu
-:iabbrev ssig -- <cr>Patrick Doupe<cr>Senior Data Analyst<cr>Arnhold Institute for Global Health<cr>patrick.doupe@mssm.edu
 :iabbrev teh the
 :iabbrev adn and
 :iabbrev THe The
