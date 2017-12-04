@@ -28,7 +28,13 @@ Plugin 'xolox/vim-notes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'vimwiki/vimwiki'
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'tpope/vim-commentary'
+" Plugin '/usr/local/opt/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'majutsushi/tagbar'
 
 call vundle#end()
 filetype plugin indent on
@@ -37,6 +43,8 @@ syntax enable
 set background=dark
 
 set laststatus=2
+
+
 
 " settings
 set number
@@ -82,8 +90,6 @@ set backspace=indent,eol,start
 set ruler               " show line and column number
 set showcmd             " show (partial) command in status line
 
-" colours
-" colo monokai
 syntax on               " syntax highlighting
 set t_Co=256 	        " setting to 256 color mode
 
@@ -103,12 +109,20 @@ nnoremap L $
 vnoremap H 0
 vnoremap L $
 
+" omnicomplete
+set omnifunc=syntaxcomplete#Complete
+
+" toggle pastemode
+:nnoremap <leader>pp :set paste
+:nnoremap <leader>np :set nopaste
 " making it easy to edit the .vimrc
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 
 
 " abbreviation
+:iabbrev @@ mail@patrickdoupe.net
+:iabbrev ssig -- <cr>Patrick Doupe<cr>Senior Data Analyst<cr>Arnhold Institute for Global Health<cr>patrick.doupe@mssm.edu
 :iabbrev teh the
 :iabbrev adn and
 :iabbrev THe The
@@ -125,3 +139,43 @@ set diffopt+=horizontal
 "
 " " Ignore changes in whitespaces characters
 set diffopt+=iwhite
+
+" vim wiki and vim notes
+let g:notes_directories=['~/Dropbox/notes']
+let g:notes_suffix='*.txt'
+let g:tex_flavor='latex'
+let g:vimwiki_list=[{'path': '~/Dropbox/vimwiki', 'index' : 'index'}]
+" let g:vimwiki_url_maxsave=0
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" LaTeX (rubber) macro for compiling
+nnoremap <leader>c :w<CR>:!rubber -pdf --clean --warn all %<CR>
+
+" View PDF macro; ':%r' is current file's root (base) name
+nnoremap <leader>v :!skim %:r.pdf &<CR><CR>
+
+" For SirVer/ultisnips
+" Trigger configuration
+let g:UltisnipsExpandTrigger="<tab>"
+let g:UltisnipsJumpForwardTrigger="<c-b>"
+let g:UltisnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window
+" let g:UltiSnipsEditSplit="vertical"
+
+" make vim use decimals with leading zeros 
+set nrformats-=octal
+
+" for plugin Tagbar
+nmap <F8> :TagbarToggle<CR>
+" for plugin NERDTree
+nmap <F7> :NERDTree<CR>
