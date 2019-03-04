@@ -2,7 +2,6 @@
 " patrick's vimrc
 " tweet me your opinion about how i'm doing this wrong: @patrickdoupe
 "
-
 set nocompatible
 filetype plugin on
 syntax on
@@ -28,6 +27,7 @@ Plugin 'xolox/vim-notes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bronson/vim-visual-star-search'
 Plugin 'vimwiki/vimwiki'
+Plugin 'mattn/calendar-vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -35,6 +35,8 @@ Plugin 'tpope/vim-commentary'
 " Plugin '/usr/local/opt/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
+Plugin 'derekwyatt/vim-scala'
+" Plugin 'kien/ctrlp'
 
 call vundle#end()
 filetype plugin indent on
@@ -44,17 +46,17 @@ set background=dark
 
 set laststatus=2
 
-
-
 " settings
 set number
 syntax on
 set textwidth=78
 set wrap
 
-"" unlimited tw for csvs and markdowns
+"" unlimited tw for csvs, md and wiki files
 au BufRead,BufNewFile,BufReadPre  *.csv setlocal tw=0
-au BufRead,BufNewFile,BufReadPre  *.md setlocal tw=0
+au BufRead,BufNewFile,BufReadPre  *.md setlocal tw=78
+au BufRead,BufNewFile,BufReadPre  *.wiki setlocal tw=78
+au BufRead,BufNewFile,BufReadPre  *.Rmd setlocal tw=80
 "" Python things
 " mappingsnding of tabs for various file types
 au BufRead,BufNewFile *.py set expandtab
@@ -95,8 +97,6 @@ set t_Co=256 	        " setting to 256 color mode
 
 inoremap jk <esc>
 let mapleader = ","
-noremap - ddp
-noremap _ ddkkp
 nnoremap <leader>d ddi
 nnoremap <leader>c ddi<Return><esc>ki
 inoremap <c-u> <esc>Ui
@@ -113,20 +113,17 @@ vnoremap L $
 set omnifunc=syntaxcomplete#Complete
 
 " toggle pastemode
-:nnoremap <leader>pp :set paste
-:nnoremap <leader>np :set nopaste
+nnoremap <leader>pp :set paste
+nnoremap <leader>np :set nopaste
 " making it easy to edit the .vimrc
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>sv :source $MYVIMRC<cr>
-
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>hv :split $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " abbreviation
-:iabbrev @@ mail@patrickdoupe.net
-:iabbrev ssig -- <cr>Patrick Doupe<cr>Senior Data Analyst<cr>Arnhold Institute for Global Health<cr>patrick.doupe@mssm.edu
-:iabbrev teh the
-:iabbrev adn and
-:iabbrev THe The
-:iabbrev deffn def ():<cr><Tab>"""<cr>Describe what this function does<cr><cr>Inputs:<cr><cr>Output:<cr><cr>"""<cr><cr>return<cr>
+iabbrev teh the
+iabbrev adn and
+iabbrev THe The
 
 " Diff Options
 "
@@ -141,21 +138,43 @@ set diffopt+=horizontal
 set diffopt+=iwhite
 
 " vim wiki and vim notes
-let g:notes_directories=['~/Dropbox/notes']
+let g:notes_directories=['~/notes']
 let g:notes_suffix='*.txt'
 let g:tex_flavor='latex'
-let g:vimwiki_list=[{'path': '~/Dropbox/vimwiki', 'index' : 'index'}]
+" vimwiki
+let g:vimwiki_list = [
+                        \{'path': '~/vimwiki/zalando.wiki'},
+                        \{'path': '~/vimwiki/personal.wiki'}
+                \]
+au BufRead,BufNewFile *.wiki set filetype=vimwiki
+
+
+nnoremap <leader>c :Calendar
+
+let g:nested_syntaxes={'python': 'python', 'sql': 'sql', 'scala': 'scala'}
 " let g:vimwiki_url_maxsave=0
 
 " syntastic
+" by default this is off
+
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" hit ctrl-w E for error checking
+nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+let g:syntastic_python_checkers=['mypy','flake8']
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_quiet_messages = { "regex": [
+        \ '\mpossible unwanted space at "{"',
+        \ ] }
+let g:syntastic_python_python_exec = '/Users/pdoupe/.pyenv/shims/python'
 
 " LaTeX (rubber) macro for compiling
 nnoremap <leader>c :w<CR>:!rubber -pdf --clean --warn all %<CR>
@@ -176,6 +195,10 @@ let g:UltisnipsJumpBackwardTrigger="<c-z>"
 set nrformats-=octal
 
 " for plugin Tagbar
-nmap <F8> :TagbarToggle<CR>
+:nnoremap <leader>tt :TagbarToggle<CR>
 " for plugin NERDTree
-nmap <F7> :NERDTree<CR>
+:nnoremap <leader>nt :NERDTreeToggle<CR>
+" to find the current file
+:nnoremap <leader>ntf :NERDTreeFind<CR>
+let g:NERDTreeMapActivateNode="<F6>"
+let g:NERDTreeMapPreview="<F5>"
