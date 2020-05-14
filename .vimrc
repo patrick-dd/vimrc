@@ -10,17 +10,37 @@
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" vundle
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" General
-set nocp
-
-" enable filetype plugins
+set nocompatible
 filetype on
-filetype plugin on
-filetype indent on
+
+" set the runtime path to include vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-notes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'bronson/vim-visual-star-search'
+Plugin 'vimwiki/vimwiki'
+Plugin 'mattn/calendar-vim'
+Plugin 'dense-analysis/ale'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-commentary'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jpalardy/vim-slime'
+
+call vundle#end()
+filetype plugin indent on
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
 
 " highlighted syntax
 syntax on
@@ -57,33 +77,6 @@ set background=dark
 
 " netrw configuration
 let g:netrw_banner = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" vundle
-
-" set the runtime path to include vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-notes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'bronson/vim-visual-star-search'
-Plugin 'vimwiki/vimwiki'
-Plugin 'mattn/calendar-vim'
-Plugin 'vim-syntastic/syntastic'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
-Plugin 'tpope/vim-commentary'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'derekwyatt/vim-scala'
-
-call vundle#end()
-filetype plugin indent on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Nerd tree
@@ -186,13 +179,13 @@ set diffopt+=iwhite
 " vimwiki
 
 " vim wiki and vim notes
-let g:notes_directories=['~/gdrive/vimwiki/notes']
+let g:notes_directories=['~/nfs/vimwiki/notes']
 let g:notes_suffix='*.txt'
 let g:tex_flavor='latex'
 " vimwiki
 let g:vimwiki_list = [
-                        \{'path': '~/gdrive/vimwiki/zalando.wiki'},
-                        \{'path': '~/gdrive/vimwiki/personal.wiki'}
+                        \{'path': '~/nfs/vimwiki/zalando.wiki'},
+                        \{'path': '~/nfs/vimwiki/personal.wiki'}
                 \]
 au BufRead,BufNewFile *.wiki set filetype=vimwiki
 
