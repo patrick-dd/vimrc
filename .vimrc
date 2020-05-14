@@ -9,13 +9,37 @@
 "
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " General
 set nocp
+filetype off
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" vundle
+
+" set the runtime path to include vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-notes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'bronson/vim-visual-star-search'
+Plugin 'vimwiki/vimwiki'
+Plugin 'mattn/calendar-vim'
+Plugin 'dense-analysis/ale'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-commentary'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jpalardy/vim-slime'
+
+call vundle#end()
+filetype plugin indent on
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " enable filetype plugins
 filetype on
@@ -57,34 +81,6 @@ set background=dark
 
 " netrw configuration
 let g:netrw_banner = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" vundle
-
-" set the runtime path to include vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-notes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'bronson/vim-visual-star-search'
-Plugin 'vimwiki/vimwiki'
-Plugin 'mattn/calendar-vim'
-Plugin 'vim-syntastic/syntastic'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
-Plugin 'tpope/vim-commentary'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'derekwyatt/vim-scala'
-
-call vundle#end()
-filetype plugin indent on
-
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Nerd tree
 
@@ -208,28 +204,37 @@ let g:calendar_weeknm=3
 let g:nested_syntaxes={'python': 'python', 'sql': 'sql', 'scala': 'scala'}
 " let g:vimwiki_url_maxsave=0
 
+" ALE
+" quickfix list
+let g:ale_open_list = 1
+let g:ale_linters = {
+            \    'sql' : ['sqllint', 'sqlparse'],
+            \    'python': ['autopep8'].
+            \    'r': ['lintr']
+            \}
+
 " syntastic
 " by default this is off
 
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" hit ctrl-w E for error checking
-nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_sql_checkers=['sqlint']
-let g:syntastic_python_checkers=['mypy','flake8']
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_quiet_messages = { "regex": [
-        \ '\mpossible unwanted space at "{"',
-        \ ] }
-let g:syntastic_python_python_exec = '/Users/pdoupe/.pyenv/shims/python'
+" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" " hit ctrl-w E for error checking
+" nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
+" 
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" 
+" let g:syntastic_sql_checkers=['sqlint']
+" let g:syntastic_python_checkers=['mypy','flake8']
+" 
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_quiet_messages = { "regex": [
+"         \ '\mpossible unwanted space at "{"',
+"         \ ] }
+" let g:syntastic_python_python_exec = '/Users/pdoupe/.pyenv/shims/python'
 
 " LaTeX (rubber) macro for compiling
 nnoremap <leader>c :w<CR>:!rubber -pdf --clean --warn all %<CR>
