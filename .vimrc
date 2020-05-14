@@ -1,21 +1,66 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" patrick's vimrc
-" tweet me your opinion about how i'm doing this wrong: @patrickdoupe
+" A vimrc file
 "
-set nocompatible
+" Maintainer: Patrick Doupe
+"
+" Sections:
+"   basic
+"
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" General
+set nocp
+
+" enable filetype plugins
+filetype on
 filetype plugin on
+filetype indent on
+
+" highlighted syntax
 syntax on
 
-" open with NERDTree
-" au VimEnter * NERDTree
-" toggle NERDTree on/off
-map <C-n> :NERDTreeToggle<CR>
-" close vim when the only window left is NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"" enable line numbers
-let NERDTreeShowLineNumbers=1
-"" make sure relative line numbers are used
-autocmd FileType nerdtree setlocal relativenumber
+" show command you're typing
+set showcmd
+
+" change map leader to comma
+let mapleader = ","
+
+" there is no escape button on a post 2017 MPB
+inoremap jk <esc>
+
+" spaces rather than tabs
+set expandtab
+set smarttab
+
+" set tabs to 2
+set shiftwidth=2
+set softtabstop=2
+" unless python
+au BufRead,BufNewFile,BufReadPre  *.py setlocal shiftwidth=4
+au BufRead,BufNewFile,BufReadPre  *.py setlocal softtabstop=4
+
+" line numbers
+set relativenumber 
+
+" keep files sane
+set textwidth=78
+set wrap
+
+" nicer on the eyes
+set background=dark
+
+" netrw configuration
+let g:netrw_banner = 0
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" vundle
 
 " set the runtime path to include vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -29,39 +74,40 @@ Plugin 'bronson/vim-visual-star-search'
 Plugin 'vimwiki/vimwiki'
 Plugin 'mattn/calendar-vim'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-commentary'
-" Plugin '/usr/local/opt/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/goyo.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'derekwyatt/vim-scala'
-" Plugin 'kien/ctrlp'
 
 call vundle#end()
 filetype plugin indent on
 
-syntax enable
-set background=dark
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" Nerd tree
 
-set laststatus=2
+" toggle NERDTree on/off
+map <C-n> :NERDTreeToggle<CR>
+" close vim when the only window left is NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
 
-" settings
-set number
-syntax on
-set textwidth=78
-set wrap
+" last window has a status line
+" set laststatus=2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" filetypes
 
 "" unlimited tw for csvs, md and wiki files
 au BufRead,BufNewFile,BufReadPre  *.csv setlocal tw=0
 au BufRead,BufNewFile,BufReadPre  *.md setlocal tw=78
 au BufRead,BufNewFile,BufReadPre  *.wiki setlocal tw=78
 au BufRead,BufNewFile,BufReadPre  *.Rmd setlocal tw=80
-"" Python things
-" mappingsnding of tabs for various file types
-au BufRead,BufNewFile *.py set expandtab
-" automatically check for tabs on reading python
-" au BufRead *.py :normal gg=G
 
 " automatic comments by filetype
 autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
@@ -95,8 +141,6 @@ set showcmd             " show (partial) command in status line
 syntax on               " syntax highlighting
 set t_Co=256 	        " setting to 256 color mode
 
-inoremap jk <esc>
-let mapleader = ","
 nnoremap <leader>d ddi
 nnoremap <leader>c ddi<Return><esc>ki
 inoremap <c-u> <esc>Ui
@@ -137,19 +181,29 @@ set diffopt+=horizontal
 " " Ignore changes in whitespaces characters
 set diffopt+=iwhite
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" vimwiki
+
 " vim wiki and vim notes
-let g:notes_directories=['~/notes']
+let g:notes_directories=['~/gdrive/vimwiki/notes']
 let g:notes_suffix='*.txt'
 let g:tex_flavor='latex'
 " vimwiki
 let g:vimwiki_list = [
-                        \{'path': '~/vimwiki/zalando.wiki'},
-                        \{'path': '~/vimwiki/personal.wiki'}
+                        \{'path': '~/gdrive/vimwiki/zalando.wiki'},
+                        \{'path': '~/gdrive/vimwiki/personal.wiki'}
                 \]
 au BufRead,BufNewFile *.wiki set filetype=vimwiki
 
+" calendar
+nnoremap <leader>cl :CalendarVR <CR> <bar> :vertical resize +4 <CR> <bar>
 
-nnoremap <leader>c :Calendar
+" weeks begin on a monday
+let g:calendar_monday = 1
+" have calendar weeks
+let g:calendar_weeknm=3
+
 
 let g:nested_syntaxes={'python': 'python', 'sql': 'sql', 'scala': 'scala'}
 " let g:vimwiki_url_maxsave=0
@@ -165,6 +219,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+let g:syntastic_sql_checkers=['sqlint']
 let g:syntastic_python_checkers=['mypy','flake8']
 
 let g:syntastic_always_populate_loc_list = 1
@@ -184,9 +239,9 @@ nnoremap <leader>v :!skim %:r.pdf &<CR><CR>
 
 " For SirVer/ultisnips
 " Trigger configuration
-let g:UltisnipsExpandTrigger="<tab>"
-let g:UltisnipsJumpForwardTrigger="<c-b>"
-let g:UltisnipsJumpBackwardTrigger="<c-z>"
+" let g:UltisnipsExpandTrigger="<tab>"
+" let g:UltisnipsJumpForwardTrigger="<c-b>"
+" let g:UltisnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window
 " let g:UltiSnipsEditSplit="vertical"
@@ -195,10 +250,10 @@ let g:UltisnipsJumpBackwardTrigger="<c-z>"
 set nrformats-=octal
 
 " for plugin Tagbar
-:nnoremap <leader>tt :TagbarToggle<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
 " for plugin NERDTree
-:nnoremap <leader>nt :NERDTreeToggle<CR>
+nnoremap <leader>nt :NERDTreeToggle<CR>
 " to find the current file
-:nnoremap <leader>ntf :NERDTreeFind<CR>
+nnoremap <leader>ntf :NERDTreeFind<CR>
 let g:NERDTreeMapActivateNode="<F6>"
 let g:NERDTreeMapPreview="<F5>"
