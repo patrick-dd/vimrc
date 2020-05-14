@@ -9,12 +9,12 @@
 "
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""
-" General
-set nocp
-filetype off
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " vundle
+
+set nocompatible
+filetype on
 
 " set the runtime path to include vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -39,12 +39,8 @@ Plugin 'jpalardy/vim-slime'
 call vundle#end()
 filetype plugin indent on
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" enable filetype plugins
-filetype on
-filetype plugin on
-filetype indent on
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
 
 " highlighted syntax
 syntax on
@@ -81,6 +77,7 @@ set background=dark
 
 " netrw configuration
 let g:netrw_banner = 0
+
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Nerd tree
 
@@ -182,13 +179,13 @@ set diffopt+=iwhite
 " vimwiki
 
 " vim wiki and vim notes
-let g:notes_directories=['~/gdrive/vimwiki/notes']
+let g:notes_directories=['~/nfs/vimwiki/notes']
 let g:notes_suffix='*.txt'
 let g:tex_flavor='latex'
 " vimwiki
 let g:vimwiki_list = [
-                        \{'path': '~/gdrive/vimwiki/zalando.wiki'},
-                        \{'path': '~/gdrive/vimwiki/personal.wiki'}
+                        \{'path': '~/nfs/vimwiki/zalando.wiki'},
+                        \{'path': '~/nfs/vimwiki/personal.wiki'}
                 \]
 au BufRead,BufNewFile *.wiki set filetype=vimwiki
 
@@ -204,37 +201,28 @@ let g:calendar_weeknm=3
 let g:nested_syntaxes={'python': 'python', 'sql': 'sql', 'scala': 'scala'}
 " let g:vimwiki_url_maxsave=0
 
-" ALE
-" quickfix list
-let g:ale_open_list = 1
-let g:ale_linters = {
-            \    'sql' : ['sqllint', 'sqlparse'],
-            \    'python': ['autopep8'].
-            \    'r': ['lintr']
-            \}
-
 " syntastic
 " by default this is off
 
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" " hit ctrl-w E for error checking
-" nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
-" 
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" 
-" let g:syntastic_sql_checkers=['sqlint']
-" let g:syntastic_python_checkers=['mypy','flake8']
-" 
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_quiet_messages = { "regex": [
-"         \ '\mpossible unwanted space at "{"',
-"         \ ] }
-" let g:syntastic_python_python_exec = '/Users/pdoupe/.pyenv/shims/python'
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" hit ctrl-w E for error checking
+nnoremap <C-w>E :SyntasticCheck<CR> :SyntasticToggleMode<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_sql_checkers=['sqlint']
+let g:syntastic_python_checkers=['mypy','flake8']
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_quiet_messages = { "regex": [
+        \ '\mpossible unwanted space at "{"',
+        \ ] }
+let g:syntastic_python_python_exec = '/Users/pdoupe/.pyenv/shims/python'
 
 " LaTeX (rubber) macro for compiling
 nnoremap <leader>c :w<CR>:!rubber -pdf --clean --warn all %<CR>
